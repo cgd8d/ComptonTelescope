@@ -1,0 +1,11 @@
+README.rst
+setup.py
+soerp/__init__.py
+soerp/method_of_moments.py
+soerp.egg-info/PKG-INFO
+soerp.egg-info/SOURCES.txt
+soerp.egg-info/dependency_links.txt
+soerp.egg-info/requires.txt
+soerp.egg-info/top_level.txt
+soerp/umath/__init__.py
+soerp/umath/umath.py

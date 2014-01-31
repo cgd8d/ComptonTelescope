@@ -1,0 +1,34 @@
+Shared work on Compton Telescope for EXO.
+
+Open or partially-addressed tasks are listed below; maybe down the road we'll use the wiki feature to give a more detailed description of what has been accomplished on each task.
+
+Solve systematic issue
+* Try second-order error propagation with soerp. (Owen has started on this.)
+* Quantify when a point on the heat plot is "significant".
+
+Visualization
+* Visualization of "heat plot" for source data (ie. highly localized source position).
+* Visualization of "heat plot" for LB data (ie. very diffuse source positions).
+* Breakdowns for systematic studies, like TPC1 vs TPC2, etc.
+
+Handling multiple sites
+* Is there a better way to guess on the ordering of two-site events, eg. Baysian probability?
+* Can we make use of 3+ site events by guessing on the ordering of clusters?
+
+Handling peaks other than Th-228 2.6 MeV
+* Can we use the primary peaks from other sources (Co-60, Cs-137, Ra-?)?
+* Can we use secondary peaks from sources (like Th at 1.6 MeV, or other Ra peaks)?
+* Can we use peaks on large background (like K-40 in low-background data)?
+* Can we make use of the Co sum peak (two incident gammas)?
+
+Better event selection
+* Use denoised energy to select events more effectively. (Owen?)
+* Produce denoised cluster energies. (Probably would need to be Clayton.)
+
+End-goal projects
+* Use relative cluster positions to identify which come from a common gamma in LB data. (Sereres)
+* See if we can image the inside of the source tube.
+* Identify sources of LB backgrounds.
+
+
+The scripts folder contains the various scripts which are currently used.  It also contains snapshots of the uncertainties package (first-order error propagation, https://pypi.python.org/pypi/uncertainties/) and the soerp package (second-order error propagation, https://pypi.python.org/pypi/soerp).  These packages are both useful for propagating errors in pieces of the compton scattering formula into an uncertainty on how well-defined the projected cone from a given event may be.
