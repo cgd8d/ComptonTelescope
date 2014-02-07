@@ -263,7 +263,12 @@ if __name__ == '__main__':
     ROOT.gSystem.Load("libEXOUtilities")
     if ROOT.gSystem.Load("libEXOUtilities") < 0: sys.exit('Failed to load EXOUtilities.')
     import glob
-    globname = '/nfs/slac/g/exo_data3/exo_data/data/WIPP/masked/' + str(int(sys.argv[1])) + '/masked*.root'
+    try:
+        # If an integer was passed in, interpret it as a run number (at SLAC).
+        globname = '/nfs/slac/g/exo_data3/exo_data/data/WIPP/masked/' + str(int(sys.argv[1])) + '/masked*.root'
+    except ValueError:
+        # If we couldn't convert it from an integer, interpret it as a filename.
+        globname = sys.argv[1]
     print globname
     EventTree = ROOT.TChain('tree')
     EventTree.Add(globname)
