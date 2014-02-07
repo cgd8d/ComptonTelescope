@@ -1,4 +1,0 @@
-ad
-numpy
-scipy
-matplotlib
