@@ -279,7 +279,7 @@ if __name__ == '__main__':
     import glob
     try:
         # If an integer was passed in, interpret it as a run number (at SLAC).
-        globname = '/nfs/slac/g/exo_data3/exo_data/data/WIPP/masked/' + str(int(sys.argv[1])) + '/masked*.root'
+        globname = '/nfs/slac/g/exo_data3/exo_data/data/WIPP/DN_Source_LJPurity_Jan2014/' + str(int(sys.argv[1])) + '/denoised*.root'
     except ValueError:
         # If we couldn't convert it from an integer, interpret it as a filename.
         globname = sys.argv[1]
