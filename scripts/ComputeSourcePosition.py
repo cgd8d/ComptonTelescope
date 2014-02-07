@@ -204,7 +204,7 @@ def Run(prefix, **kwargs):
 
     # Calib objects we'll reuse.
     calibManager = ROOT.EXOCalibManager.GetCalibManager()
-    eCalib = ROOT.EXOEnergyCalib.GetInstanceForFlavor("vanilla","vanilla","vanilla")
+    eCalib = ROOT.EXOEnergyCalib.GetInstanceForFlavor("2013-0nu-denoised","2013-0nu-denoised","vanilla")
 
     # Locate the entries worth scanning each time, so we only have to waste time once.
     EventExtracts = []
@@ -222,6 +222,18 @@ def Run(prefix, **kwargs):
             # Cut on anticorrelated energy.
             # Note that we'll need the individual cluster energies (charge-only),
             # But using anticorrelated energy here improves the effectiveness of our cut on the full-energy peak.
+            scintE = scint.fDenoisedEnergy
+            # We currently apply a correction to the scintillation energy.
+            sum_charge_e = sum(clu.fPurityCorrectedEnergy for clu in clusters)
+            sum_correction = 0.
+            for clu in clusters:
+                if clu.fZ > 0:
+                    corr = (0.9355 + 1.289*pow(abs(clu.fZ/1e3), 2.004))
+                else:
+                    corr = (0.938 + 0.6892*pow(abs(clu.fZ/1e3), 1.716))
+                sum_correction += corr*clu.fPurityCorrectedEnergy
+            scintE /= sum_correction/sum_charge_e
+            # Now apply the denoised-scintillation calibration.
             antiCorrE = eCalib.CalibratedRotatedEnergy(sum(clu.fPurityCorrectedEnergy for clu in clusters),
                                                        scint.fRawEnergy,
                                                        2,
@@ -229,7 +241,9 @@ def Run(prefix, **kwargs):
 
             # Is it consistent with 2615 keV?  If so, add it to the TEventList.
             # Consistent here will mean within 1 sigma of 2615 keV.
-            EResCalib = calibManager.getCalib("energy-resolution", "vanilla", event.fEventHeader)
+            EResCalib = calibManager.getCalib("energy-resolution",
+                                              "2013-0nu-denoised-weekly",
+                                              event.fEventHeader)
             resolution = EResCalib.RotatedResolution(PrimaryE, 2)
             if abs(PrimaryE - antiCorrE) < resolution:
                 EventExtracts.append(PrestoredEvent(clusters[0], clusters[1], False))
